@@ -14,6 +14,24 @@ DISCLAIMER: As-of 2021, this product does not have a free support team anymore. 
 
 (This product is available under a free and permissive license, but needs financial support to sustain its continued improvements. In addition to maintenance and stability there are many desirable features yet to be added.)
 
+## 🐍 NEW: Python Version Available!
+
+A new **Python CLI version** is now available with:
+- ✅ **Minimal dependencies** (only 4 packages)
+- ✅ **Built-in proxy support** for downloads and dependencies
+- ✅ **Easy to use** - just `python3 yamete.py -u <url>`
+- ✅ **Same features** as PHP version (PDF, ZIP, custom drivers)
+
+**Quick Start:**
+```bash
+pip3 install requests beautifulsoup4 Pillow reportlab
+python3 yamete.py -u "https://hdporncomics.com/example/"
+```
+
+📖 See [QUICKSTART_PYTHON.md](QUICKSTART_PYTHON.md) or [README_PYTHON.md](README_PYTHON.md) for details.
+
+---
+
 This image allows you easily download specific assets of a site
 
 But why?
