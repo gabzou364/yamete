@@ -11,8 +11,16 @@ def test_driver_loading():
     """Test that drivers are loaded."""
     print("Testing driver loading...")
     parser = Parser()
-    assert len(parser.drivers) == 3, f"Expected 3 drivers, got {len(parser.drivers)}"
-    print(f"✓ Loaded {len(parser.drivers)} drivers")
+    # We expect at least 3 production drivers (may have more from example_driver.py)
+    assert len(parser.drivers) >= 3, f"Expected at least 3 drivers, got {len(parser.drivers)}"
+    
+    # Check that the key drivers are present
+    driver_names = [d.__class__.__name__ for d in parser.drivers]
+    required_drivers = ['HDPornComics', 'NHentai', 'EHentai']
+    for req_driver in required_drivers:
+        assert req_driver in driver_names, f"Required driver {req_driver} not found"
+    
+    print(f"✓ Loaded {len(parser.drivers)} drivers (including {', '.join(required_drivers)})")
     return True
 
 def test_hdporncomics_pattern():
