@@ -39,8 +39,8 @@ class DriverInterface(ABC):
         if self.session is None:
             self.session = requests.Session()
             self.session.headers.update({'User-Agent': self.USER_AGENT})
-            if proxies:
-                self.session.proxies.update(proxies)
+        if proxies:
+            self.session.proxies.update(proxies)
         return self.session
     
     def clean(self) -> 'DriverInterface':

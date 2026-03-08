@@ -131,6 +131,54 @@ def test_parser_routing():
     
     return True
 
+def test_get_session_creates_session():
+    """Test that get_session() without proxies creates a session."""
+    print("\nTesting get_session() creates session...")
+    driver = HDPornComics()
+
+    assert driver.session is None, "Session should be None initially"
+    session = driver.get_session()
+    assert session is not None, "get_session() should return a session"
+    assert driver.session is session, "Session should be stored on the driver"
+    print("✓ get_session() creates a new session")
+    return True
+
+
+def test_get_session_updates_proxies_on_existing_session():
+    """Test that get_session(proxies=...) updates proxies even if session already exists."""
+    print("\nTesting get_session(proxies=...) updates existing session proxies...")
+    driver = HDPornComics()
+
+    # Create session first (without proxies)
+    session = driver.get_session()
+    assert session.proxies.get('http') is None, "Should have no http proxy initially"
+
+    # Now apply proxies to the existing session
+    proxy_dict = {'http': 'http://proxy:8080', 'https': 'http://proxy:8080'}
+    session2 = driver.get_session(proxies=proxy_dict)
+
+    assert session2 is session, "Should return the same session object"
+    assert session2.proxies.get('http') == 'http://proxy:8080', "http proxy should be updated"
+    assert session2.proxies.get('https') == 'http://proxy:8080', "https proxy should be updated"
+    print("✓ get_session(proxies=...) updates proxies on existing session")
+    return True
+
+
+def test_get_session_sets_proxies_on_new_session():
+    """Test that get_session(proxies=...) sets proxies when creating a new session."""
+    print("\nTesting get_session(proxies=...) sets proxies on new session...")
+    driver = HDPornComics()
+
+    proxy_dict = {'http': 'http://proxy:9090', 'https': 'http://proxy:9090'}
+    session = driver.get_session(proxies=proxy_dict)
+
+    assert session is not None, "get_session() should return a session"
+    assert session.proxies.get('http') == 'http://proxy:9090', "http proxy should be set"
+    assert session.proxies.get('https') == 'http://proxy:9090', "https proxy should be set"
+    print("✓ get_session(proxies=...) sets proxies on new session")
+    return True
+
+
 def main():
     """Run all tests."""
     print("=" * 60)
@@ -143,6 +191,9 @@ def main():
         test_nhentai_pattern,
         test_ehentai_pattern,
         test_parser_routing,
+        test_get_session_creates_session,
+        test_get_session_updates_proxies_on_existing_session,
+        test_get_session_sets_proxies_on_new_session,
     ]
     
     passed = 0
