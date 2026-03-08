@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Simple test script for yamete Python CLI."""
 
+import re
 import sys
 sys.path.insert(0, 'python')
 
@@ -144,6 +145,24 @@ def test_get_session_creates_session():
     return True
 
 
+def test_get_session_sets_browser_headers():
+    """Test that get_session() sets full browser-like headers to avoid 403 errors."""
+    print("\nTesting get_session() sets browser-like headers...")
+    driver = HDPornComics()
+
+    session = driver.get_session()
+    headers = session.headers
+
+    assert re.search(r'Chrome/\d+', headers.get('User-Agent', '')), "User-Agent should contain a Chrome version"
+    assert 'Accept' in headers, "Accept header should be set"
+    assert 'Accept-Language' in headers, "Accept-Language header should be set"
+    assert 'Accept-Encoding' in headers, "Accept-Encoding header should be set"
+    assert 'Sec-Fetch-Dest' in headers, "Sec-Fetch-Dest header should be set"
+    assert 'Sec-Fetch-Mode' in headers, "Sec-Fetch-Mode header should be set"
+    print("✓ get_session() sets complete browser-like headers")
+    return True
+
+
 def test_get_session_updates_proxies_on_existing_session():
     """Test that get_session(proxies=...) updates proxies even if session already exists."""
     print("\nTesting get_session(proxies=...) updates existing session proxies...")
@@ -192,6 +211,7 @@ def main():
         test_ehentai_pattern,
         test_parser_routing,
         test_get_session_creates_session,
+        test_get_session_sets_browser_headers,
         test_get_session_updates_proxies_on_existing_session,
         test_get_session_sets_proxies_on_new_session,
     ]
