@@ -33,6 +33,7 @@ class HDPornComics(DriverInterface):
     def get_downloadables(self) -> Dict[str, str]:
         """Get all downloadable images from the album."""
         session = self.get_session()
+        session.headers.update({'Referer': f'https://{self.DOMAIN}/'})
         
         try:
             response = session.get(self.url, timeout=30)
